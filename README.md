@@ -59,7 +59,7 @@ The SQL queries provide insights such as:
 
 1. Management wants to see all users that did not login in the past 14 months. List those users.
 
-```
+```sql
 select user_id, MAX(login_timestamp) as last_login_timestamp, DATE_ADD(CURDATE(), INTERVAL -14 MONTH) as current_month
 from logins
 group by user_id
@@ -73,7 +73,7 @@ having last_login_timestamp < current_month
   -- Order by quarter from newest to oldest.
   -- Return: first day of the quarter, user_cnt, session_cnt.
    
-```
+```sql
 with cte as (select COUNT(DISTINCT user_id) as users_count, count(*) as session_count ,quarter(Login_timestamp) as quarter_number
  from logins
  group by quarter(Login_timestamp)
@@ -99,7 +99,7 @@ group by DATEPART(quarter, LOGIN_TIMESTAMP)
 ---
 
 3. Display the user id's that Log-in in January 2024 and did not Log-in on November 2023.
-```
+```sql
 select distinct user_id
 from logins
 where LOGIN_TIMESTAMP like '2024-01%' 
@@ -128,7 +128,7 @@ where LOGIN_TIMESTAMP like '2023-11%'
 -- Return: first day of the quarter, session_cnt, session_cnt_prev, Session_percent_change.
 -- Check video as he has diff answer. His quarter date starts from july and mine from Jan. Dont know if he intended that
 
-```
+```sql
 with cte as (select COUNT(DISTINCT user_id) as users_count, count(*) as session_count ,quarter(Login_timestamp) as quarter_number
  from logins
  group by quarter(Login_timestamp)
@@ -152,7 +152,7 @@ select cte.quarter_number, min(LOGIN_TIMESTAMP) as first_day_of_quarter, cte.ses
 5. Display the users that had highest session score for each day.
 -- Return date, usernme, score
 
-```
+```sql
 with cte as (select LOGIN_TIMESTAMP, max(SESSION_SCORE) as max_session_score
 from logins
 group by LOGIN_TIMESTAMP
@@ -185,7 +185,7 @@ order by LOGIN_TIMESTAMP;
  -- Make assumptions if needed.
  -- Return: User_id
 
-```
+```sql
 -- On what days were there no logins at all?
 WITH RECURSIVE cte AS (
     SELECT MIN(DATE(LOGIN_TIMESTAMP)) AS first_date, DATE(CURDATE()) AS last_date
