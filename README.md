@@ -184,23 +184,7 @@ order by LOGIN_TIMESTAMP;
 6. To identify our best users, return the users that had a session on every single day since their first login.  
  -- Make assumptions if needed.  
  -- Return: User_id  
--- On what days were there no logins at all?  
  ```sql
-WITH RECURSIVE cte AS (
-    SELECT MIN(DATE(LOGIN_TIMESTAMP)) AS first_date, DATE(CURDATE()) AS last_date
-    FROM logins
-    UNION ALL
-    SELECT DATE_ADD(first_date, INTERVAL 1 DAY), last_date
-    FROM cte
-    WHERE first_date < last_date
-)
-SELECT * 
-FROM cte
-where first_date not in
-(select distinct date(login_timestamp) from logins
-)
-;
-
 /* Below diff from video as I do not have data that is up to date. I could add rows to see if below works.
 SELECT 
   USER_ID, 
@@ -213,3 +197,23 @@ HAVING no_of_login_days = no_of_login_days_required
 ORDER BY USER_ID;*/
 
 ```
+
+---
+
+7. On what days were there no logins at all?
+   ```sql
+   WITH RECURSIVE cte AS (
+    SELECT MIN(DATE(LOGIN_TIMESTAMP)) AS first_date, DATE(CURDATE()) AS last_date
+    FROM logins
+    UNION ALL
+    SELECT DATE_ADD(first_date, INTERVAL 1 DAY), last_date
+    FROM cte
+    WHERE first_date < last_date
+    )
+    SELECT * 
+    FROM cte
+    where first_date not in
+    (select distinct date(login_timestamp) from logins
+    )
+;
+   ```
