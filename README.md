@@ -69,8 +69,8 @@ having last_login_timestamp < current_month
 
 ---
 
-2. For the business units' quarterly analysis, calculate how many users and how many sessions were at each quarter.
-  -- Order by quarter from newest to oldest.
+2. For the business units' quarterly analysis, calculate how many users and how many sessions were at each quarter.  
+  -- Order by quarter from newest to oldest.  
   -- Return: first day of the quarter, user_cnt, session_cnt.
    
 ```sql
@@ -124,8 +124,8 @@ where LOGIN_TIMESTAMP like '2023-11%'
 
 ---
 
-4. Add the percentage change in sessions from last quarter to query 2.
--- Return: first day of the quarter, session_cnt, session_cnt_prev, Session_percent_change.
+4. Add the percentage change in sessions from last quarter to query 2.  
+-- Return: first day of the quarter, session_cnt, session_cnt_prev, Session_percent_change.  
 -- Check video as he has diff answer. His quarter date starts from july and mine from Jan. Dont know if he intended that
 
 ```sql
@@ -149,7 +149,7 @@ select cte.quarter_number, min(LOGIN_TIMESTAMP) as first_day_of_quarter, cte.ses
 
 ---
 
-5. Display the users that had highest session score for each day.
+5. Display the users that had highest session score for each day.  
 -- Return date, usernme, score
 
 ```sql
@@ -181,12 +181,11 @@ order by LOGIN_TIMESTAMP;
 ---
 
 
-6. To identify our best users, return the users that had a session on every single day since their first login.
- -- Make assumptions if needed.
- -- Return: User_id
-
-```sql
--- On what days were there no logins at all?
+6. To identify our best users, return the users that had a session on every single day since their first login.  
+ -- Make assumptions if needed.  
+ -- Return: User_id  
+-- On what days were there no logins at all?  
+ ```sql
 WITH RECURSIVE cte AS (
     SELECT MIN(DATE(LOGIN_TIMESTAMP)) AS first_date, DATE(CURDATE()) AS last_date
     FROM logins
