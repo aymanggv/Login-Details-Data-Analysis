@@ -215,5 +215,5 @@ ORDER BY USER_ID;*/
     where first_date not in
     (select distinct date(login_timestamp) from logins
     )
-;
+    ;
    ```
